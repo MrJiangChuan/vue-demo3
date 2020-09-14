@@ -15,10 +15,15 @@
     <h4>3.2 子组件--->父组件</h4>
     <div :style="{fontSize: size+'px'}">大</div>
     <compentent3 v-on:enlarge-text='handle1'></compentent3>
+    <h4>3.3 兄弟组件间传值</h4>
+    <input type="button" value="销毁" @click="destroy"/><br>
+    <tom-component></tom-component>
+    <jerry-component></jerry-component>
   </div>
 </template>
 
 <script>
+  import Vue from 'vue'
   var HelloVue = {
     data() {
       return {
@@ -46,6 +51,44 @@
     },
     template:`<input type="button" value="子向父传递消息" @click="$emit('enlarge-text', 30)" />`
   }
+  
+  var hub = new Vue()
+  var TomComponent = {
+    data() {
+      return {
+        count_tom: 0
+      }
+    },
+    template: `<div><input type="button" value="Tom" @click="handle" /><span>{{count_tom}}</span></div>`,
+    mounted() {
+      hub.$on('tom-envent', (val) => {
+        this.count_tom += val
+      })
+    },
+    methods: {
+      handle() {
+        hub.$emit('jerry-event',1)
+      }
+    }
+  }
+  var JerryComponent = {
+    data() {
+      return {
+        count_jerry: 0
+      }
+    },
+    template: `<div><input type="button" value="Jerry" @click="handle" /><span>{{count_jerry}}</span></div>`,
+    mounted() {
+      hub.$on('jerry-event', (val) => {
+        this.count_jerry += val
+      })
+    },
+    methods: {
+      handle() {
+        hub.$emit('tom-envent',2)
+      }
+    }
+  }
 export default {
   name: 'App',
   data() {
@@ -57,12 +100,18 @@ export default {
   components: {
      'hello-vue': HelloVue,
      'compentent2': Compentent2,
-     'compentent3': Compentent3
+     'compentent3': Compentent3,
+     'tom-component': TomComponent,
+     'jerry-component': JerryComponent
   },
   methods: {
     handle1(args) {
       this.size += args
       console.log(this.size)
+    },
+    destroy() {
+      hub.$off('tom-envent')
+      hub.$off('jerry-event')
     }
   }
 }
