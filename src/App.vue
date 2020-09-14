@@ -28,7 +28,7 @@
         <p>2222222</p>
         <p slot="bottom">333333</p>
     </slot-name-component>
-    
+
     <slot-name-component>
       <template slot="top">
         <h1>1111</h1>
@@ -43,6 +43,12 @@
         <h2>bbbb</h2>
       </template>
     </slot-name-component>
+    <h4>3.6 作用域插槽</h4>
+    <fruit-list v-bind:list="info">
+     <template slot-scope="slotProps">
+        <strong style="color: red;" v-if="slotProps.item.id%2==0">{{slotProps.item.name}}</strong>
+      </template>
+    </fruit-list>
   </div>
 </template>
 
@@ -143,12 +149,45 @@
       </div>
     `
   }
+  var  FruitList = {
+    props:['list'],
+    data() {
+      return {}
+    },
+    template: `
+        <div>
+          <ol>
+            <li :key="item.id"  v-for="item in list" >
+              <slot :item="item">{{item.name}}</slot>
+            </li>
+          </ol>
+        </div>
+    `
+  }
 export default {
   name: 'App',
   data() {
     return {
       pt: '父组件中内容xxx',
-      size: 5
+      size: 5,
+      info: [
+        {
+          id: 1,
+          name: '橘子'
+        },
+        {
+          id: 2,
+          name: '橙子'
+        },
+        {
+          id: 3,
+          name: '香蕉'
+        },
+        {
+          id: 4,
+          name: '桃子'
+        }
+      ]
     }
   },
   components: {
@@ -158,7 +197,8 @@ export default {
      'tom-component': TomComponent,
      'jerry-component': JerryComponent,
      'slot-component': SlotComponent,
-     'slot-name-component': SlotNameComponent
+     'slot-name-component': SlotNameComponent,
+     'fruit-list': FruitList
   },
   methods: {
     handle1(args) {
