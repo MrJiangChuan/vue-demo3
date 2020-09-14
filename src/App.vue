@@ -19,6 +19,9 @@
     <input type="button" value="销毁" @click="destroy"/><br>
     <tom-component></tom-component>
     <jerry-component></jerry-component>
+    <h4>3.4 组件插槽</h4>
+     <slot-component>系统出现严重错误</slot-component>
+     <slot-component></slot-component>
   </div>
 </template>
 
@@ -51,7 +54,7 @@
     },
     template:`<input type="button" value="子向父传递消息" @click="$emit('enlarge-text', 30)" />`
   }
-  
+
   var hub = new Vue()
   var TomComponent = {
     data() {
@@ -89,6 +92,18 @@
       }
     }
   }
+
+  var SlotComponent = {
+    data() {
+      return {}
+    },
+    template: `
+      <div>
+         <strong>ERROR</strong><br>
+         <slot>默认内容</slot>
+      </div>
+    `
+  }
 export default {
   name: 'App',
   data() {
@@ -102,7 +117,8 @@ export default {
      'compentent2': Compentent2,
      'compentent3': Compentent3,
      'tom-component': TomComponent,
-     'jerry-component': JerryComponent
+     'jerry-component': JerryComponent,
+     'slot-component': SlotComponent
   },
   methods: {
     handle1(args) {
