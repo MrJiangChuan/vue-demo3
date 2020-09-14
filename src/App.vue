@@ -20,8 +20,29 @@
     <tom-component></tom-component>
     <jerry-component></jerry-component>
     <h4>3.4 组件插槽</h4>
-     <slot-component>系统出现严重错误</slot-component>
-     <slot-component></slot-component>
+    <slot-component>系统出现严重错误</slot-component>
+    <slot-component></slot-component>
+    <h4>3.5 具名插槽</h4>
+    <slot-name-component>
+        <p slot="top">111111</p>
+        <p>2222222</p>
+        <p slot="bottom">333333</p>
+    </slot-name-component>
+    
+    <slot-name-component>
+      <template slot="top">
+        <h1>1111</h1>
+        <h2>2222</h2>
+      </template>
+      <template>
+        <h1>嗯嗯嗯嗯</h1>
+        <h2>啊啊啊啊</h2>
+      </template>
+      <template slot="bottom">
+        <h1>aaaa</h1>
+        <h2>bbbb</h2>
+      </template>
+    </slot-name-component>
   </div>
 </template>
 
@@ -104,6 +125,24 @@
       </div>
     `
   }
+  var SlotNameComponent = {
+    data() {
+      return {}
+    },
+    template: `
+      <div>
+         <div id="top" style="color: red">
+          <slot name="top"></slot>
+         </div>
+         <div id="mid" style="color: green">
+         <slot></slot>
+         </div>
+         <div id="bottom" style="color: blue">
+         <slot name="bottom"></slot>
+         </div>
+      </div>
+    `
+  }
 export default {
   name: 'App',
   data() {
@@ -118,7 +157,8 @@ export default {
      'compentent3': Compentent3,
      'tom-component': TomComponent,
      'jerry-component': JerryComponent,
-     'slot-component': SlotComponent
+     'slot-component': SlotComponent,
+     'slot-name-component': SlotNameComponent
   },
   methods: {
     handle1(args) {
