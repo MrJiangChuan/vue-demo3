@@ -4,18 +4,33 @@
     <button-counter></button-counter>
     <button-counter></button-counter>
     <button-counter></button-counter>
-    <!-- <input type="button" v-bind:value="count" v-on:click="count++" /> -->
+    <hr>
+    <h3>2、局部组件的注册与使用</h3>
+    <input type="text" />
+    <hello-vue></hello-vue>
   </div>
 </template>
 
 <script>
-
+  var HelloVue = {
+    data() {
+      return {
+        
+      } 
+    },
+    template: `
+      <input type="text" />
+    `
+  }
 export default {
   name: 'App',
   data() {
     return {
-
+     
     }
+  },
+  comments: {
+     'hello-vue': HelloVue
   }
 }
 </script>
